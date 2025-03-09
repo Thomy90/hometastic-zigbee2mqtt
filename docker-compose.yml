@@ -5,8 +5,8 @@ services:
     restart: "always"
     networks:
       - "reverse-proxy"
-    ports:
-      - "8090:8080"
+    expose:
+      - "8080"
     volumes:
       - "./data:/app/data"
     environment:
@@ -14,8 +14,15 @@ services:
     devices:
       - /dev/ttyUSB0:/dev/ttyACM0
     labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.zigbee2mqtt.rule=Host(`zigbee2mqtt.home.tastic`)"
       - "diun.enable=true"
       - "diun.include_tags=^2\\.\\d+\\.\\d+$"
+      - "homepage.group=Smart Home & Automation"
+      - "homepage.name=Zigbee2MQTT"
+      - "homepage.icon=zigbee2mqtt.png"
+      - "homepage.href=https://zigbee2mqtt.home.tastic"
+      - "homepage.description=Zigbee Device Management"
 
 networks:
   reverse-proxy:
