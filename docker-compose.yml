@@ -1,0 +1,22 @@
+services:
+  zigbee2mqtt:
+    image: "${IMAGE}"
+    container_name: "zigbee2mqtt"
+    restart: "always"
+    networks:
+      - "reverse-proxy"
+    ports:
+      - "8090:8080"
+    volumes:
+      - "./data:/app/data"
+    environment:
+      - TZ=Europe/Berlin
+    devices:
+      - /dev/ttyUSB0:/dev/ttyACM0
+    labels:
+      - "diun.enable=true"
+      - "diun.include_tags=^2\\.\\d+\\.\\d+$"
+
+networks:
+  reverse-proxy:
+    external: true
